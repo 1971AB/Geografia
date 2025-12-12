@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>MiniApp Planisfero Interattivo</title>
+  <style>
+    body {
+      background-color: #eef;
+      font-family: Georgia, serif;
+      text-align: center;
+    }
+
+    .map-container {
+      position: relative;
+      display: inline-block;
+    }
+
+    .map-container img {
+      max-width: 100%;
+      border: 2px solid #444;
+      border-radius: 10px;
+    }
+
+    .continent {
+      position: absolute;
+      font-size: 1.2em;
+      font-weight: bold;
+      color: black;
+      background-color: rgba(255, 255, 255, 0.7);
+      padding: 4px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    /* Posizionamento approssimativo */
+    .america { top: 35%; left: 10%; }
+    .europa  { top: 25%; left: 45%; }
+    .africa  { top: 50%; left: 45%; }
+    .asia    { top: 30%; left: 65%; }
+    .oceania { top: 65%; left: 80%; }
+
+    /* Popup */
+    .popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #fff;
+      border: 2px solid #333;
+      border-radius: 8px;
+      padding: 20px;
+      max-width: 300px;
+      z-index: 100;
+    }
+
+    .popup h2 {
+      margin-top: 0;
+    }
+
+    .popup button {
+      margin-top: 10px;
+      padding: 6px 12px;
+      background: #444;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>MiniApp: Esplora i Continenti</h1>
+  <div class="map-container">
+    <img src="planisfero.png" alt="Planisfero">
+    <div class="continent america" onclick="showPopup('America')">America</div>
+    <div class="continent europa" onclick="showPopup('Europa')">Europa</div>
+    <div class="continent africa" onclick="showPopup('Africa')">Africa</div>
+    <div class="continent asia" onclick="showPopup('Asia')">Asia</div>
+    <div class="continent oceania" onclick="showPopup('Oceania')">Oceania</div>
+  </div>
+
+  <!-- Popup -->
+  <div id="popup" class="popup">
+    <h2 id="popup-title"></h2>
+    <p id="popup-text"></p>
+    <button onclick="closePopup()">Chiudi</button>
+  </div>
+
+  <script>
+    function showPopup(continent) {
+      const popup = document.getElementById("popup");
+      const title = document.getElementById("popup-title");
+      const text = document.getElementById("popup-text");
+
+      title.textContent = continent;
+
+      switch(continent) {
+        case "America":
+          text.textContent = "Include Nord, Centro e Sud America, con grande varietà culturale e geografica.";
+          break;
+        case "Europa":
+          text.textContent = "Culla della civiltà occidentale, ricca di storia, lingue e culture.";
+          break;
+        case "Africa":
+          text.textContent = "Secondo continente più grande, noto per biodiversità e antiche civiltà.";
+          break;
+        case "Asia":
+          text.textContent = "Il continente più vasto, con economie emergenti e antiche tradizioni.";
+          break;
+        case "Oceania":
+          text.textContent = "Comprende Australia, Nuova Zelanda e le isole del Pacifico.";
+          break;
+      }
+
+      popup.style.display = "block";
+    }
+
+    function closePopup() {
+      document.getElementById("popup").style.display = "none";
+    }
+  </script>
+</body>
+</html>
