@@ -1,0 +1,74 @@
+{
+  "Europa": [
+    {
+      "domanda": "Qual è il fiume più lungo d'Europa?",
+      "opzioni": ["Danubio", "Volga", "Reno", "Senna"],
+      "corretta": "Volga"
+    },
+    {
+      "domanda": "Quale città è la capitale della Norvegia?",
+      "opzioni": ["Oslo", "Stoccolma", "Copenaghen", "Helsinki"],
+      "corretta": "Oslo"
+    }
+  ],
+  "Asia": [
+    {
+      "domanda": "Qual è la montagna più alta del mondo?",
+      "opzioni": ["K2", "Everest", "Kangchenjunga", "Makalu"],
+      "corretta": "Everest"
+    },
+    {
+      "domanda": "Qual è la capitale della Mongolia?",
+      "opzioni": ["Astana", "Ulan Bator", "Tashkent", "Bishkek"],
+      "corretta": "Ulan Bator"
+    }
+  ],
+  "Africa": [
+    {
+      "domanda": "Qual è il deserto più grande del mondo?",
+      "opzioni": ["Kalahari", "Sahara", "Namib", "Gobi"],
+      "corretta": "Sahara"
+    },
+    {
+      "domanda": "Quale fiume attraversa l'Egitto?",
+      "opzioni": ["Nilo", "Congo", "Zambesi", "Niger"],
+      "corretta": "Nilo"
+    }
+  ],
+  "America": [
+    {
+      "domanda": "Quale città è la capitale del Canada?",
+      "opzioni": ["Toronto", "Ottawa", "Montreal", "Vancouver"],
+      "corretta": "Ottawa"
+    },
+    {
+      "domanda": "Quale catena montuosa attraversa il Sud America?",
+      "opzioni": ["Alpi", "Ande", "Rocciose", "Appalachi"],
+      "corretta": "Ande"
+    }
+  ],
+  "Oceania": [
+    {
+      "domanda": "Qual è la capitale dell'Australia?",
+      "opzioni": ["Sydney", "Melbourne", "Canberra", "Perth"],
+      "corretta": "Canberra"
+    },
+    {
+      "domanda": "Quale isola è famosa per i Moai?",
+      "opzioni": ["Tahiti", "Isola di Pasqua", "Fiji", "Samoa"],
+      "corretta": "Isola di Pasqua"
+    }
+  ],
+  "Antartide": [
+    {
+      "domanda": "Quale animale è tipico dell'Antartide?",
+      "opzioni": ["Pinguino", "Orso polare", "Renna", "Volpe artica"],
+      "corretta": "Pinguino"
+    },
+    {
+      "domanda": "Quale continente è il più freddo della Terra?",
+      "opzioni": ["Asia", "Antartide", "Europa", "Nord America"],
+      "corretta": "Antartide"
+    }
+  ]
+}
