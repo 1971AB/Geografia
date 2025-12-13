@@ -10,9 +10,7 @@
       text-align: center;
     }
 
-    h1 {
-      margin-bottom: 5px;
-    }
+    h1 { margin-bottom: 5px; }
 
     .map-container {
       position: relative;
@@ -24,6 +22,7 @@
       max-width: 100%;
       border: 2px solid #444;
       border-radius: 10px;
+      display: block;
     }
 
     .continent {
@@ -35,14 +34,34 @@
       padding: 4px 8px;
       border-radius: 6px;
       cursor: pointer;
+      user-select: none;
     }
 
-    /* Posizionamento approssimativo */
-    .america { top: 35%; left: 10%; }
-    .europa  { top: 25%; left: 45%; }
-    .africa  { top: 50%; left: 45%; }
-    .asia    { top: 30%; left: 65%; }
-    .oceania { top: 65%; left: 80%; }
+    /* Posizionamento indicativo dei label continenti */
+    .america { top: 45%; left: 12%; }
+    .europa  { top: 28%; left: 46%; }
+    .africa  { top: 55%; left: 46%; }
+    .asia    { top: 32%; left: 65%; }
+    .oceania { top: 72%; left: 80%; }
+
+    /* Nave animata: Oceania (ancora più a sud) → Argentina → ritorno */
+    .ship {
+      position: absolute;
+      width: 62px;
+      z-index: 10;
+      top: 85%;    /* Oceania: più a sud */
+      left: 95%;   /* bordo destro del planisfero */
+      animation: rottaOceaniaArgentina 30s linear infinite alternate;
+      /* alternate = avanti e indietro */
+      filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3));
+    }
+
+    @keyframes rottaOceaniaArgentina {
+      0%   { left: 80%; top: 84%; }  /* Partenza Oceania sud */
+      30%  { left: 75%; top: 85%; }  /* Pacifico centrale */
+      60%  { left: 30%; top: 83%; }  /* Verso Sud America */
+      100% { left: 20%; top: 86%; }  /* Arrivo Argentina */
+    }
 
     /* Popup */
     .popup {
@@ -60,9 +79,7 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }
 
-    .popup h2 {
-      margin-top: 0;
-    }
+    .popup h2 { margin-top: 0; }
 
     .popup button {
       margin-top: 10px;
@@ -84,6 +101,8 @@
 
   <div class="map-container">
     <img src="planisfero.png" alt="Planisfero">
+    <img src="nave.png" alt="Nave in viaggio" class="ship">
+
     <div class="continent america" onclick="showPopup('America')">America</div>
     <div class="continent europa" onclick="showPopup('Europa')">Europa</div>
     <div class="continent africa" onclick="showPopup('Africa')">Africa</div>
@@ -106,7 +125,7 @@
 
       title.textContent = continent;
 
-      switch(continent) {
+      switch (continent) {
         case "America":
           text.textContent = "Include Nord, Centro e Sud America, con grande varietà culturale e geografica.";
           break;
@@ -133,5 +152,3 @@
   </script>
 </body>
 </html>
-
-
