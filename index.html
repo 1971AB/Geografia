@@ -44,23 +44,22 @@
     .asia    { top: 32%; left: 65%; }
     .oceania { top: 72%; left: 80%; }
 
-    /* Nave animata: Oceania (ancora più a sud) → Argentina → ritorno */
+    /* Nave animata: Oceania → Argentina → ritorno */
     .ship {
       position: absolute;
       width: 62px;
       z-index: 10;
-      top: 85%;    /* Oceania: più a sud */
-      left: 95%;   /* bordo destro del planisfero */
+      top: 85%;
+      left: 95%;
       animation: rottaOceaniaArgentina 30s linear infinite alternate;
-      /* alternate = avanti e indietro */
       filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3));
     }
 
     @keyframes rottaOceaniaArgentina {
-      0%   { left: 80%; top: 84%; }  /* Partenza Oceania sud */
-      30%  { left: 75%; top: 85%; }  /* Pacifico centrale */
-      60%  { left: 30%; top: 83%; }  /* Verso Sud America */
-      100% { left: 20%; top: 86%; }  /* Arrivo Argentina */
+      0%   { left: 80%; top: 84%; }
+      30%  { left: 75%; top: 85%; }
+      60%  { left: 30%; top: 83%; }
+      100% { left: 20%; top: 86%; }
     }
 
     /* Popup */
@@ -74,15 +73,16 @@
       border: 2px solid #333;
       border-radius: 8px;
       padding: 20px;
-      max-width: 300px;
+      max-width: 400px;
       z-index: 100;
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      text-align: left;
     }
 
     .popup h2 { margin-top: 0; }
 
-    .popup button {
-      margin-top: 10px;
+    .popup .close-btn {
+      margin-top: 12px;
       padding: 6px 12px;
       background: #444;
       color: #fff;
@@ -90,6 +90,18 @@
       border-radius: 4px;
       cursor: pointer;
     }
+
+    .quiz-btn {
+      margin: 3px 6px 8px 0;
+      padding: 6px 10px;
+      background: #2a4d8f;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .quiz-btn:hover { background: #1d3560; }
+    .divider { margin: 12px 0; border-top: 1px solid #ddd; }
   </style>
 </head>
 <body>
@@ -111,43 +123,90 @@
   </div>
 
   <!-- Popup -->
-  <div id="popup" class="popup">
+  <div id="popup" class="popup" role="dialog" aria-modal="true" aria-labelledby="popup-title">
     <h2 id="popup-title"></h2>
-    <p id="popup-text"></p>
-    <button onclick="closePopup()">Chiudi</button>
+    <div id="popup-text"></div>
+    <button class="close-btn" onclick="closePopup()">Chiudi</button>
   </div>
 
   <script>
+    // Dati del quiz incorporati (puoi ampliarli)
+    const QUIZ = {
+      America: [
+        { domanda: "Qual è la capitale del Canada?", opzioni: ["Toronto", "Ottawa", "Montreal", "Vancouver"], corretta: "Ottawa" },
+        { domanda: "Quale catena montuosa attraversa il Sud America?", opzioni: ["Alpi", "Ande", "Rocciose", "Appalachi"], corretta: "Ande" }
+      ],
+      Europa: [
+        { domanda: "Qual è il fiume più lungo d'Europa?", opzioni: ["Danubio", "Volga", "Reno", "Senna"], corretta: "Volga" },
+        { domanda: "Quale catena montuosa separa la Francia dalla Spagna?", opzioni: ["Alpi", "Appennini", "Pirenei", "Carpazi"], corretta: "Pirenei" }
+      ],
+      Africa: [
+        { domanda: "Qual è il deserto più grande del mondo?", opzioni: ["Kalahari", "Sahara", "Namib", "Gobi"], corretta: "Sahara" },
+        { domanda: "Quale montagna è la più alta dell’Africa?", opzioni: ["Kilimangiaro", "Monte Kenya", "Rwenzori", "Drakensberg"], corretta: "Kilimangiaro" }
+      ],
+      Asia: [
+        { domanda: "Qual è la montagna più alta del mondo?", opzioni: ["K2", "Everest", "Kangchenjunga", "Makalu"], corretta: "Everest" },
+        { domanda: "Quale deserto si trova in Cina e Mongolia?", opzioni: ["Sahara", "Gobi", "Kalahari", "Namib"], corretta: "Gobi" }
+      ],
+      Oceania: [
+        { domanda: "Qual è la capitale dell’Australia?", opzioni: ["Sydney", "Melbourne", "Canberra", "Perth"], corretta: "Canberra" },
+        { domanda: "Quale paese è composto da due isole principali: Nord e Sud?", opzioni: ["Fiji", "Nuova Caledonia", "Nuova Zelanda", "Samoa"], corretta: "Nuova Zelanda" }
+      ]
+    };
+
+    function closePopup() {
+      const popup = document.getElementById("popup");
+      popup.style.display = "none";
+      // Pulizia contenuto per evitare accumuli
+      document.getElementById("popup-title").textContent = "";
+      document.getElementById("popup-text").innerHTML = "";
+    }
+
     function showPopup(continent) {
       const popup = document.getElementById("popup");
       const title = document.getElementById("popup-title");
       const text = document.getElementById("popup-text");
 
+      // Reset contenuto
+      title.textContent = "";
+      text.innerHTML = "";
+
       title.textContent = continent;
 
-      switch (continent) {
-        case "America":
-          text.textContent = "Include Nord, Centro e Sud America, con grande varietà culturale e geografica.";
-          break;
-        case "Europa":
-          text.textContent = "Culla della civiltà occidentale, ricca di storia, lingue e culture.";
-          break;
-        case "Africa":
-          text.textContent = "Secondo continente più grande, noto per biodiversità e antiche civiltà.";
-          break;
-        case "Asia":
-          text.textContent = "Il continente più vasto, con economie emergenti e antiche tradizioni.";
-          break;
-        case "Oceania":
-          text.textContent = "Comprende Australia, Nuova Zelanda e le isole del Pacifico.";
-          break;
+      // Descrizione breve
+      const descrizioni = {
+        America: "Include Nord, Centro e Sud America, con grande varietà culturale e geografica.",
+        Europa:  "Culla della civiltà occidentale, ricca di storia, lingue e culture.",
+        Africa:  "Secondo continente più grande, noto per biodiversità e antiche civiltà.",
+        Asia:    "Il continente più vasto, con economie emergenti e antiche tradizioni.",
+        Oceania: "Comprende Australia, Nuova Zelanda e le isole del Pacifico."
+      };
+      text.innerHTML = "<p>" + (descrizioni[continent] || "") + "</p>";
+
+      // Costruzione quiz (senza fetch)
+      const domande = QUIZ[continent];
+      if (domande && domande.length) {
+        let quizHtml = '<div class="divider"></div><h3>Quiz</h3>';
+        domande.forEach((q, i) => {
+          quizHtml += `<p>${i + 1}. ${q.domanda}</p>`;
+          q.opzioni.forEach(opzione => {
+            quizHtml += `<button class="quiz-btn" onclick="verificaRisposta('${opzione.replace(/'/g, "\\'")}', '${q.corretta.replace(/'/g, "\\'")}')">${opzione}</button>`;
+          });
+        });
+        text.innerHTML += quizHtml;
+      } else {
+        text.innerHTML += '<p><em>Nessun quiz disponibile per questo continente.</em></p>';
       }
 
       popup.style.display = "block";
     }
 
-    function closePopup() {
-      document.getElementById("popup").style.display = "none";
+    function verificaRisposta(risposta, corretta) {
+      if (risposta === corretta) {
+        alert("✅ Corretto!");
+      } else {
+        alert("❌ Sbagliato! La risposta giusta era: " + corretta);
+      }
     }
   </script>
 </body>
